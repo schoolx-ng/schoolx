@@ -1,0 +1,2 @@
+# schoolx
+School Automation Software
