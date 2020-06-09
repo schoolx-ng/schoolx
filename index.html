@@ -1,14 +1,37 @@
 <!DOCTYPE html>
-<html lang="en">
+<html class="h-full" lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/tailwind.css">
     <title>SchoolX | School Result Automation Software</title>
+  
 </head>
-<body>
-    <div class="w-full h-full bg-gray-100">
+<body class="w-full h-full mt-0 pt-0 bg-gray-100">
+    <div id="root" class="w-full h-full relative">
+        <header class="w-full h-16 bg-white fixed top-0 md:ml-64 md:w-rem">
+            <nav class="w-full">
         
-    </div>
+            </nav>
+        </header> 
+        <aside id="side-bar" 
+        class="fixed h-full bg-blue-800 w-0 inset-y-0 left-0 z-10 md:w-64 transition-all duration-500 md:rounded-r-lg">
+        
+        </aside>
+        <div id="toggle-sidebar" 
+        class="w-8 h-12 flex justify-center items-center bg-blue-800 fixed z-20 top-1/2 left-0 cursor-pointer transition-left duration-500 md:hidden">
+            <svg xmlns="http://www.w3.org/2000/svg" id="chevron" viewBox="0 0 24 24" 
+            class="w-8 h-8 bg-transparent fill-current text-white duration-500 transition-transform transform rotate-180">
+                <path d="M14.7 15.3a1 1 0 0 1-1.4 1.4l-4-4a1 1 0 0 1 0-1.4l4-4a1 1 0 0 1 1.4 1.4L11.42 12l3.3 3.3z"/>
+            </svg>
+        </div>
+        <main id="content" class="w-full min-h-rem mt-16 pt-4 bg-transparent pl-4 pr-4 md:ml-64 md:w-rem">
+            <div class="h-64 bg-gray-500"></div>
+        </main>
+        <footer class="w-full h-16 bg-white bottom-0 md:ml-64 md:w-rem">
+
+        </footer>
+    </div> 
+    <script src="js/styles.js"></script>  
 </body>
 </html>
