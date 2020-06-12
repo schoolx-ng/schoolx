@@ -5,20 +5,24 @@ class SideBar {
         this.sideBarToggler = document.getElementById('toggle-sidebar');
         this.content = document.getElementById('content');
         this.chevron = document.getElementById('chevron');
+        this.overlay = document.getElementById('overlay');
         this.addListeners();
     }
     addListeners() {
         this.sideBarToggler.addEventListener('click', this.toggleSideBar.bind(this))
+        this.overlay.addEventListener('click', this.toggleSideBar.bind(this))
     }
     toggleSideBar() {  
         switch (SideBar.state) {
             case true:
                 this.sideBar.classList.remove('w-64','rounded-r-lg');
+                this.overlay.classList.remove('w-full', 'opacity-50');
                 this.chevron.classList.add('rotate-180');
                 this.sideBarToggler.classList.remove('left-64');
                 break;
             default:
                 this.sideBar.classList.add('w-64', 'rounded-r-lg');
+                this.overlay.classList.add('w-full', 'opacity-50');
                 this.sideBarToggler.classList.add('left-64');
                 this.chevron.classList.remove('rotate-180');
                 break;
