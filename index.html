@@ -1,14 +1,244 @@
 <!DOCTYPE html>
-<html lang="en">
+<html class="h-full" lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/tailwind.css">
     <title>SchoolX | School Result Automation Software</title>
+    <style> 
+            ::-moz-scrollbar,::-webkit-scrollbar {
+                width: 12px;
+            }
+            
+            ::-moz-scrollbar-track,::-webkit-scrollbar-track {
+                -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+                box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+                border-radius: 10px;
+            }
+            
+            ::-moz-scrollbar-thumb,::-webkit-scrollbar-thumb {
+                border-radius: 10px;
+                -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
+                box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
+            }
+    </style>
 </head>
-<body>
-    <div class="w-full h-full bg-gray-100">
-        
-    </div>
+<body class="w-full h-full mt-0 pt-0 bg-gray-100">
+    <div id="root" class="w-full h-full relative">
+        <div id="overlay" class="fixed transition-all duration-500 w-0 h-full bg-gray-900 opacity-0 inset-0 z-20 lg:hidden"></div>
+        <header class="w-full h-16 bg-white fixed top-0 lg:ml-64 lg:w-rem shadow-2xl">
+            <nav class="w-full h-full flex flex-no-wrap justify-between items-center pr-4 pl-4 relative">
+                <div class=" flex-1">
+                    <h1 class="text-2xl font-bold text-gray-700">Dashboard</h1>
+                </div>
+                <!--Search Box-->
+                <div id="search" class="w-0 p-0 absolute left-0 top-auto z-10 md:static overflow-hidden rounded-full md:mx-2 md:visible md:w-64 md:p-1 transition-all duration-500">
+                    <div class="w-full relative">
+                        <input type="text" class="w-full rounded-full py-2 pl-4 text-sm shadow-inner bg-white focus:border-gray-100 focus:border-2 hover:bg-gray-100  " id="search-input">
+                        <div id="search" class="w-8 p-1 h-full flex items-center justify-center ml-2 bg-transparent cursor-pointer absolute inset-y-0 right-0">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-4 h-4  fill-current text-gray-700 hover:text-gray-900">
+                                <path  d="M16.32 14.9l5.39 5.4a1 1 0 0 1-1.42 1.4l-5.38-5.38a8 8 0 1 1 1.41-1.41zM10 16a6 6 0 1 0 0-12 6 6 0 0 0 0 12z"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <!--NavBar Menu-->
+                <div id="menu" class="h-0 bg-white shadow-xl md:shadow-none absolute top-4 right-0 md:static  overflow-hidden duration-500 transition-all md:visible md:h-full md:w-64">
+                    <ul class="w-64 md:w-full h-full  list-none flex flex-col justify-end md:flex-row md:flex-no-wrap md:items-center content-center">
+                        <li class="w-full h-16 md:mx-1  rounded-md md:h-auto font-semibold text-gray-800 md:w-auto cursor-pointer bg-white hover:shadow-inner">
+                            <a href="" class="w-full h-full p-2 flex flex-row flex-no-wrap bg-transparent items-center">
+                                <span class="w-8 h-8 lg:w-10 lg:h-10 mr-2 block rounded-lg overflow-hidden">
+                                    <img id="profile-pic" src="/assets/img/profile.jpg" class="w-full"/>
+                                </span>
+                                <span class="whitespace-no-wrap text-sm font-light">Sharon Davies<br><span class="font-thin text-sm">Administrator </span></span>
+                            </a>
+                        </li>
+                        <li class="w-full h-12 md:mx-1 md:h-auto  font-semibold rounded-md text-gray-800 relative md:w-auto md:h-6 cursor-pointer bg-white hover:shadow-inner">
+                            <a href="" class="w-full h-full p-2 flex flex-row flex-no-wrap items-center bg-transparent">
+                                <div class="w-8 h-full relative">
+                                    <span class="w-4 h-4 absolute top-0 right-0 z-10 bg-orange-400 rounded-full text-xs text-center text-white">
+                                        <span class="w-full h-full flex items-center justify-center">4</span>
+                                    </span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-6 h-6">
+                                        <path class="heroicon-ui" d="M15 19a3 3 0 0 1-6 0H4a1 1 0 0 1 0-2h1v-6a7 7 0 0 1 4.02-6.34 3 3 0 0 1 5.96 0A7 7 0 0 1 19 11v6h1a1 1 0 0 1 0 2h-5zm-4 0a1 1 0 0 0 2 0h-2zm0-12.9A5 5 0 0 0 7 11v6h10v-6a5 5 0 0 0-4-4.9V5a1 1 0 0 0-2 0v1.1z"/>
+                                    </svg>
+                                </div>
+                                <span class="md:hidden mx-2 text-sm font-light">Notifications</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <!--Navbar menu toggle Buttons For Small Screen Devices-->
+                <div class="md:hidden flex flex-row justify-center items-center flex-no-wrap">
+                    <div id="toggle-search" class="w-8 h-8 mx-4 bg-transparent cursor-pointer flex justify-center items-center  rounded-md hover:shadow-inner">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-5 h-5  fill-current text-gray-700">
+                            <path  d="M16.32 14.9l5.39 5.4a1 1 0 0 1-1.42 1.4l-5.38-5.38a8 8 0 1 1 1.41-1.41zM10 16a6 6 0 1 0 0-12 6 6 0 0 0 0 12z"/>
+                        </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-6 h-6 fill-current text-gray-700 hidden">
+                            <path  d="M16.24 14.83a1 1 0 0 1-1.41 1.41L12 13.41l-2.83 2.83a1 1 0 0 1-1.41-1.41L10.59 12 7.76 9.17a1 1 0 0 1 1.41-1.41L12 10.59l2.83-2.83a1 1 0 0 1 1.41 1.41L13.41 12l2.83 2.83z"/>
+                        </svg>
+                    </div>
+                    <div id="toggle-menu" class="w-8 h-8 mx-4 bg-transparent cursor-pointer flex items-center justify-center  rounded-md hover:shadow-inner">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-6 h-6 fill-current text-gray-700">
+                            <path class="heroicon-ui" d="M4 5h16a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2z"/>
+                        </svg>
+                    </div>
+                </div>
+            </nav>
+        </header> 
+        <!--Side Bar-->
+        <aside id="side-bar" 
+        class="fixed h-full bg-blue-800 overflow-x-hidden overflow-y-auto w-0 inset-y-0 left-0 z-30 lg:w-64 transition-all duration-500 lg:rounded-r-lg">
+            <div class="w-full h-full p-2">
+                <div class="w-full p-4">
+                    <img class="w-full h-auto" src="/assets/img/schoolx.png" alt="Logo">
+                </div>
+                <div class="w-full h-12 p-0 my-1 hover:bg-blue-900">
+                    <a href="" class="w-full flex flex-row flex-no-wrap items-center p-2 ">
+                        <span class="w-4 h-4 mr-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-4 h-4 fill-current text-white">
+                                <path class="heroicon-ui" d="M13 20v-5h-2v5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-7.59l-.3.3a1 1 0 1 1-1.4-1.42l9-9a1 1 0 0 1 1.4 0l9 9a1 1 0 0 1-1.4 1.42l-.3-.3V20a2 2 0 0 1-2 2h-3a2 2 0 0 1-2-2zm5 0v-9.59l-6-6-6 6V20h3v-5c0-1.1.9-2 2-2h2a2 2 0 0 1 2 2v5h3z"/>
+                            </svg>
+                        </span>
+                        <span class="text-lg font-bold text-gray-200">Overview</span>
+                    </a>
+                </div>
+                <ul class="w-full flex-col content-center justify-start list-none my-1 p-0 mx-0">
+                    
+                    <li class="w-full h-12 p-1 my-1 hover:bg-blue-900">
+                        <a href="" class="w-full h-full flex flex-row flex-no-wrap items-center p-2 ">
+                            <span class="w-4 h-4 mr-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-4 h-4 fill-current text-white">
+                                    <path class="heroicon-ui" d="M12 22a10 10 0 1 1 0-20 10 10 0 0 1 0 20zM5.68 7.1A7.96 7.96 0 0 0 4.06 11H5a1 1 0 0 1 0 2h-.94a7.95 7.95 0 0 0 1.32 3.5A9.96 9.96 0 0 1 11 14.05V9a1 1 0 0 1 2 0v5.05a9.96 9.96 0 0 1 5.62 2.45 7.95 7.95 0 0 0 1.32-3.5H19a1 1 0 0 1 0-2h.94a7.96 7.96 0 0 0-1.62-3.9l-.66.66a1 1 0 1 1-1.42-1.42l.67-.66A7.96 7.96 0 0 0 13 4.06V5a1 1 0 0 1-2 0v-.94c-1.46.18-2.8.76-3.9 1.62l.66.66a1 1 0 0 1-1.42 1.42l-.66-.67zM6.71 18a7.97 7.97 0 0 0 10.58 0 7.97 7.97 0 0 0-10.58 0z"/>
+                                </svg>
+                            </span>
+                            <span class="text-md font-semibold text-gray-200">Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="w-full h-12 p-1 my-1 hover:bg-blue-900">
+                        <a href="" class="w-full h-full flex flex-row flex-no-wrap items-center p-2 ">
+                            <span class="w-4 h-4 mr-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-4 h-4 fill-current text-white">
+                                    <path class="heroicon-ui" d="M16.32 14.9l5.39 5.4a1 1 0 0 1-1.42 1.4l-5.38-5.38a8 8 0 1 1 1.41-1.41zM10 16a6 6 0 1 0 0-12 6 6 0 0 0 0 12z"/>
+                                </svg>
+                            </span>
+                            <span class="text-md font-semibold text-gray-200">Search for Students</span>
+                        </a>
+                    </li>
+                    <li class="w-full h-12 p-1 my-1 hover:bg-blue-900">
+                        <a href="" class="w-full h-full flex flex-row flex-no-wrap items-center p-2 ">
+                            <span class="w-4 h-4 mr-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-4 h-4 fill-current text-white">
+                                    <path class="heroicon-ui" d="M11 20v-2.08a6 6 0 0 1-4.24-3A4.02 4.02 0 0 1 2 11V6c0-1.1.9-2 2-2h2c0-1.1.9-2 2-2h8a2 2 0 0 1 2 2h2a2 2 0 0 1 2 2v5a4 4 0 0 1-4.76 3.93A6 6 0 0 1 13 17.92V20h4a1 1 0 0 1 0 2H7a1 1 0 0 1 0-2h4zm6.92-7H18a2 2 0 0 0 2-2V6h-2v6c0 .34-.03.67-.08 1zM6.08 13A6.04 6.04 0 0 1 6 12V6H4v5a2 2 0 0 0 2.08 2zM8 4v8a4 4 0 1 0 8 0V4H8z"/>
+                                </svg>
+                            </span>
+                            <span class="text-md font-semibold text-gray-200">Result (Dossier)</span>
+                        </a>
+                    </li>
+                    <li class="w-full h-12 p-1 my-1 hover:bg-blue-900">
+                        <a href="" class="w-full h-full flex flex-row flex-no-wrap items-center p-2 ">
+                            <span class="w-4 h-4 mr-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-4 h-4 fill-current text-white">
+                                    <path class="heroicon-ui" d="M2 15V5c0-1.1.9-2 2-2h16a2 2 0 0 1 2 2v15a1 1 0 0 1-1.7.7L16.58 17H4a2 2 0 0 1-2-2zM20 5H4v10h13a1 1 0 0 1 .7.3l2.3 2.29V5z"/>
+                                </svg>
+                            </span>
+                            <span class="text-md font-semibold text-gray-200">Parent Feedback</span>
+                        </a>
+                    </li>
+                    <li class="w-full h-12 p-1 my-1 hover:bg-blue-900">
+                        <a href="" class="w-full h-full flex flex-row flex-no-wrap items-center p-2 ">
+                            <span class="w-4 h-4 mr-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-4 h-4 fill-current text-white">
+                                    <path class="heroicon-ui" d="M8 7V5c0-1.1.9-2 2-2h4a2 2 0 0 1 2 2v2h4a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9c0-1.1.9-2 2-2h4zm8 2H8v10h8V9zm2 0v10h2V9h-2zM6 9H4v10h2V9zm4-2h4V5h-4v2z"/>
+                                </svg>
+                            </span>
+                            <span class="text-md font-semibold text-gray-200">CBT</span>
+                        </a>
+                    </li>
+                    <li class="w-full h-24 p-1 my-1 hover:bg-blue-900">
+                        <a href="" class="w-full h-full flex flex-row flex-no-wrap items-center p-2 ">
+                            <span class="w-12 h-12 rounded-full overflow-hidden">
+                                <img class="w-full h-full" src="" alt="School Logo">
+                            </span>
+                            <span class="text-md flex flex-grow flex-col mx-1 content-start font-semibold text-gray-200">
+                                <span>School Name</span>
+                                <span class="text-xs font-thin">contact information, reports</span>
+                            </span>
+                        </a>
+                    </li>
+                    <li class="w-full h-12 p-1 my-1 hover:bg-blue-900">
+                        <a href="" class="w-full h-full flex flex-row flex-no-wrap items-center p-2 ">
+                            <span class="w-4 h-4 mr-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-4 h-4 fill-current text-white">
+                                    <path class="heroicon-ui" d="M19 10h2a1 1 0 0 1 0 2h-2v2a1 1 0 0 1-2 0v-2h-2a1 1 0 0 1 0-2h2V8a1 1 0 0 1 2 0v2zM9 12A5 5 0 1 1 9 2a5 5 0 0 1 0 10zm0-2a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm8 11a1 1 0 0 1-2 0v-2a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v2a1 1 0 0 1-2 0v-2a5 5 0 0 1 5-5h5a5 5 0 0 1 5 5v2z"/>
+                                </svg>
+                            </span>
+                            <span class="text-md font-semibold text-gray-200">Students</span>
+                        </a>
+                    </li>
+                    <li class="w-full h-12 p-1 my-1 hover:bg-blue-900">
+                        <a href="" class="w-full h-full flex flex-row flex-no-wrap items-center p-2 ">
+                            <span class="w-4 h-4 mr-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-4 h-4 fill-current text-white">
+                                    <path class="heroicon-ui" d="M2.59 13.41A1.98 1.98 0 0 1 2 12V7a5 5 0 0 1 5-5h4.99c.53 0 1.04.2 1.42.59l8 8a2 2 0 0 1 0 2.82l-8 8a2 2 0 0 1-2.82 0l-8-8zM20 12l-8-8H7a3 3 0 0 0-3 3v5l8 8 8-8zM7 8a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+                                </svg>
+                            </span>
+                            <span class="text-md font-semibold text-gray-200">Classes</span>
+                        </a>
+                    </li>
+                    <li class="w-full h-12 p-1 my-1 hover:bg-blue-900">
+                        <a href="" class="w-full h-full flex flex-row flex-no-wrap items-center p-2 ">
+                            <span class="w-4 h-4 mr-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-4 h-4 fill-current text-white">
+                                    <path class="heroicon-ui" d="M7 5H5v14h14V5h-2v10a1 1 0 0 1-1.45.9L12 14.11l-3.55 1.77A1 1 0 0 1 7 15V5zM5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5c0-1.1.9-2 2-2zm4 2v8.38l2.55-1.27a1 1 0 0 1 .9 0L15 13.38V5H9z"/>
+                                </svg>
+                            </span>
+                            <span class="text-md font-semibold text-gray-200">Subjects</span>
+                        </a>
+                    </li>
+                    <li class="w-full h-12 p-1 my-1 hover:bg-blue-900">
+                        <a href="" class="w-full h-full flex flex-row flex-no-wrap items-center p-2 ">
+                            <span class="w-4 h-4 mr-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-4 h-4 fill-current text-white">
+                                    <path class="heroicon-ui" d="M9 12A5 5 0 1 1 9 2a5 5 0 0 1 0 10zm0-2a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm7 11a1 1 0 0 1-2 0v-2a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v2a1 1 0 0 1-2 0v-2a5 5 0 0 1 5-5h4a5 5 0 0 1 5 5v2zm1-5a1 1 0 0 1 0-2 5 5 0 0 1 5 5v2a1 1 0 0 1-2 0v-2a3 3 0 0 0-3-3zm-2-4a1 1 0 0 1 0-2 3 3 0 0 0 0-6 1 1 0 0 1 0-2 5 5 0 0 1 0 10z"/>
+                                </svg>
+                            </span>
+                            <span class="text-md font-semibold text-gray-200">Staffs</span>
+                        </a>
+                    </li>
+                    <li class="w-full h-12 p-1 my-1 hover:bg-blue-900">
+                        <a href="" class="w-full h-full flex flex-row flex-no-wrap items-center p-2 ">
+                            <span class="w-4 h-4 mr-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-4 h-4 fill-current text-white">
+                                    <path class="heroicon-ui" d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6c0-1.1.9-2 2-2zm16 3.38V6H4v1.38l8 4 8-4zm0 2.24l-7.55 3.77a1 1 0 0 1-.9 0L4 9.62V18h16V9.62z"/>
+                                </svg>
+                            </span>
+                            <span class="text-md font-semibold text-gray-200">Result Checking</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </aside>
+        <!--Side Bar Toggle Button-->
+        <div id="toggle-sidebar" 
+        class="w-8 h-12 flex justify-center items-center bg-blue-800 fixed z-20 top-1/2 left-0 cursor-pointer transition-left duration-500 lg:hidden">
+            <svg xmlns="http://www.w3.org/2000/svg" id="chevron" viewBox="0 0 24 24" 
+            class="w-8 h-8 bg-transparent fill-current text-white duration-500 transition-transform transform rotate-180">
+                <path d="M14.7 15.3a1 1 0 0 1-1.4 1.4l-4-4a1 1 0 0 1 0-1.4l4-4a1 1 0 0 1 1.4 1.4L11.42 12l3.3 3.3z"/>
+            </svg>
+        </div>
+        <!--Main Content-->
+        <main id="content" class="w-full min-h-rem mt-16 pt-4 bg-transparent pl-4 pr-4 lg:ml-64 lg:w-rem">
+            <!-- Page Content Content Goes Here-->
+            <div id="wrapper" class="w-full h-full flex p-0">
+
+            </div>
+        </main>
+        <!--Page Footer-->
+        <footer class="w-full h-16 bg-white bottom-0 lg:ml-64 lg:w-rem">
+
+        </footer>
+    </div> 
+    <script src="js/styles.js"></script>  
 </body>
 </html>
